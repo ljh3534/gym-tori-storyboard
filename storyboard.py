@@ -7,7 +7,12 @@ from anthropic import Anthropic
 
 MODEL = "claude-opus-5"
 
-STYLE_GUIDE_PATH = Path(__file__).parent.parent / "인스타툰" / "gym.tori_릴스기획_참고문서.md"
+# 로컬(준호 PC)에서는 항상 최신인 원본 문서를 우선 사용하고,
+# 클라우드 배포본에는 그 폴더가 없으니 저장소에 포함된 사본(style_guide.md)으로 대체한다.
+STYLE_GUIDE_CANDIDATES = [
+    Path(__file__).parent.parent / "인스타툰" / "gym.tori_릴스기획_참고문서.md",
+    Path(__file__).parent / "style_guide.md",
+]
 
 PROMPT_TEMPLATE = """당신은 gym.tori 인스타그램 계정의 콘티 작가입니다.
 아래 "스타일 가이드"를 반드시 따라서, 주어진 유튜브 영상 소재로 {format_label} 콘티를 짜세요.
@@ -40,8 +45,9 @@ CAROUSEL_INSTRUCTION = (
 
 
 def _load_style_guide() -> str:
-    if STYLE_GUIDE_PATH.exists():
-        return STYLE_GUIDE_PATH.read_text(encoding="utf-8")
+    for path in STYLE_GUIDE_CANDIDATES:
+        if path.exists():
+            return path.read_text(encoding="utf-8")
     return "(스타일 가이드 파일을 못 찾았어요. 기본 톤: 얼굴 없는 블롭 캐릭터, 회고형 '썰' 톤)"
 
 

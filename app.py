@@ -1,9 +1,16 @@
+import os
 from pathlib import Path
 
 import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).parent / ".env")
+
+# 로컬에서는 .env가 이미 채워주고, Streamlit Cloud에서는 대시보드에 등록한
+# Secrets가 여기로 들어오니 환경변수로 옮겨준다 (다른 모듈은 os.environ만 봄).
+for _key in ("YOUTUBE_API_KEY", "ANTHROPIC_API_KEY"):
+    if _key not in os.environ and _key in st.secrets:
+        os.environ[_key] = st.secrets[_key]
 
 from transcript import get_source_material
 from storyboard import generate_storyboard
