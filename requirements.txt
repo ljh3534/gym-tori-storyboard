@@ -1,0 +1,5 @@
+streamlit==1.*
+google-api-python-client==2.*
+youtube-transcript-api==1.*
+anthropic==0.*
+python-dotenv==1.*
