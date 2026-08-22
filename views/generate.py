@@ -24,7 +24,7 @@ if st.button("콘티 생성", type="primary", disabled=not url):
     else:
         st.success("자막을 찾아서 사용했어요.")
 
-    with st.spinner(f"{format_choice} 콘티 작성 중... (30초~1분 정도 걸려요)"):
+    with st.spinner(f"{format_choice} 콘티 작성 중... (초안 생성 + 검수 2단계라 1~2분 정도 걸려요)"):
         try:
             storyboard = generate_storyboard(
                 title=material["title"],
